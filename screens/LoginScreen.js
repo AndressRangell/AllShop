@@ -13,11 +13,31 @@ import { useNavigation } from '@react-navigation/native'
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginScreen = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigation = useNavigation();
+    const handleLogin = () => {
+        const user = {
+            email: email,
+            password: password
+        }
+        axios.post("http://localhost:8000/login", user).then((response) => {
+            console.log(response);
+            const token = response.data.token;
+            AsyncStorage.setItem("authToken", token);
+            navigation.replace("Home");
+        }).catch((error) => {
+            Alert.alert(
+                "Login error",
+                "Invalid email"
+            )
+            console.log(error);
+        })
+    }
 
     return (
         <SafeAreaView
@@ -42,7 +62,7 @@ const LoginScreen = () => {
                 <View style={{ alignItems: "center" }} >
                     <Text
                         style={{
-                            fontsize: 17,
+                            fontSize: 17,
                             fontWeight: "bold",
                             marginTop: 12,
                             color: "#041E42"
@@ -77,7 +97,7 @@ const LoginScreen = () => {
                                 marginVertical: 10,
                                 marginStart: 5,
                                 width: 300,
-                                fontsize: email ? 16 : 16
+                                fontSize: email ? 16 : 16
                             }}
                             placeholder="Enter your email"
                         />
@@ -110,7 +130,7 @@ const LoginScreen = () => {
                                 marginVertical: 10,
                                 marginStart: 5,
                                 width: 300,
-                                fontsize: password ? 16 : 16
+                                fontSize: password ? 16 : 16
                             }}
                             placeholder="Enter your password"
                         />
@@ -128,7 +148,7 @@ const LoginScreen = () => {
                     <Text
                         style={{
                             color: "#007FFF",
-                            fontweight: "500"
+                            fontWeight: "500"
                         }}
                     >
                         Forgot password
@@ -136,6 +156,7 @@ const LoginScreen = () => {
                 </View>
                 <View style={{ marginTop: 80 }} />
                 <Pressable
+                    onPress={handleLogin}
                     style={{
                         width: 200,
                         backgroundColor: "#FEBE10",
@@ -149,7 +170,7 @@ const LoginScreen = () => {
                         style={{
                             textAlign: "center",
                             color: "white",
-                            fontsize: 16,
+                            fontSize: 16,
                             fontWeight: "bold"
                         }}
                     >

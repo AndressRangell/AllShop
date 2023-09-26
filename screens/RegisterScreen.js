@@ -68,7 +68,7 @@ const RegisterScreen = () => {
                 <View style={{ alignItems: "center" }} >
                     <Text
                         style={{
-                            fontsize: 17,
+                            fontSize: 17,
                             fontWeight: "bold",
                             marginTop: 12,
                             color: "#041E42"
@@ -103,7 +103,7 @@ const RegisterScreen = () => {
                                 marginVertical: 10,
                                 marginStart: 5,
                                 width: 300,
-                                fontsize: name ? 16 : 16
+                                fontSize: name ? 16 : 16
                             }}
                             placeholder="Enter your name"
                         />
@@ -135,7 +135,7 @@ const RegisterScreen = () => {
                                 marginVertical: 10,
                                 marginStart: 5,
                                 width: 300,
-                                fontsize: email ? 16 : 16
+                                fontSize: email ? 16 : 16
                             }}
                             placeholder="Enter your email"
                         />
@@ -168,7 +168,7 @@ const RegisterScreen = () => {
                                 marginVertical: 10,
                                 marginStart: 5,
                                 width: 300,
-                                fontsize: password ? 16 : 16
+                                fontSize: password ? 16 : 16
                             }}
                             placeholder="Enter your password"
                         />
@@ -186,7 +186,7 @@ const RegisterScreen = () => {
                     <Text
                         style={{
                             color: "#007FFF",
-                            fontweight: "500"
+                            fontWeight: "500"
                         }}
                     >
                         Forgot password
@@ -208,7 +208,7 @@ const RegisterScreen = () => {
                         style={{
                             textAlign: "center",
                             color: "white",
-                            fontsize: 16,
+                            fontSize: 16,
                             fontWeight: "bold"
                         }}
                     >
