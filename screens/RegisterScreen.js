@@ -6,7 +6,8 @@ import {
     Image,
     KeyboardAvoidingView,
     TextInput,
-    Pressable
+    Pressable,
+    Alert
 } from "react-native";
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
@@ -14,13 +15,36 @@ import { useNavigation } from '@react-navigation/native'
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import axios from "axios";
 
 const RegisterScreen = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     const navigation = useNavigation();
-
+    const handleRegister = () => {
+        const user = {
+            name: name,
+            email: email,
+            password: password
+        };
+        axios.post("http://localhost:8000/register", user).then((response) => {
+            console.log(response);
+            Alert.alert(
+                "Registration successful",
+                "You have been registered Successfully"
+            );
+            setName("");
+            setEmail("");
+            setPassword("");
+        }).catch((error) => {
+            Alert.alert(
+                "Registration Error",
+                "An error occurred while registering"
+            );
+            console.log("registration failed", error);
+        });
+    };
     return (
         <SafeAreaView
             style={{
@@ -170,6 +194,7 @@ const RegisterScreen = () => {
                 </View>
                 <View style={{ marginTop: 80 }} />
                 <Pressable
+                    onPress={handleRegister}
                     style={{
                         width: 200,
                         backgroundColor: "#FEBE10",
@@ -191,8 +216,8 @@ const RegisterScreen = () => {
                     </Text>
                 </Pressable>
                 <Pressable
-                    style={{ marginTop: 15 }}
                     onPress={() => navigation.goBack()}
+                    style={{ marginTop: 15 }}
                 >
                     <Text
                         style={{
