@@ -58,7 +58,7 @@ const StackNavigator = () => {
                             focused ? (
                                 <AntDesign name="shoppingcart" size={24} color="#008E97" />
                             ) : (
-                                <AntDesign name="home" size={24} color="black" />
+                                <AntDesign name="shoppingcart" size={24} color="#008E97" />
                             )
                     }}
                 />
