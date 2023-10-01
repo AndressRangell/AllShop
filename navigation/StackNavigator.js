@@ -11,6 +11,10 @@ import HomeScreen from '../screens/HomeScreen';
 import ProductInfoScreen from '../screens/ProductInfoScreen';
 import AddAddressScreen from '../screens/AddAddressScreen'
 import AddressScreen from '../screens/AddressScreen'
+import CartScreen from "../screens/CartScreen";
+import ProfileScreen from "../screens/ProfileScreen";
+import ConfirmationScreen from "../screens/ConfirmationScreen";
+import OrderScreen from "../screens/OrderScreen";
 
 const StackNavigator = () => {
     const Stack = createNativeStackNavigator();
@@ -36,11 +40,10 @@ const StackNavigator = () => {
                 />
                 <Tab.Screen
                     name="Profile"
-                    component={HomeScreen}
+                    component={ProfileScreen}
                     options={{
                         tabBarLabel: "Profile",
                         tabBarLabelStyle: { color: "#008E97" },
-                        headerShown: false,
                         tabBarIcon: ({ focused }) =>
                             focused ? (
                                 <Ionicons name="person" size={24} color="#008E97" />
@@ -51,7 +54,7 @@ const StackNavigator = () => {
                 />
                 <Tab.Screen
                     name="Cart"
-                    component={HomeScreen}
+                    component={CartScreen}
                     options={{
                         tabBarLabel: "Cart",
                         tabBarLabelStyle: { color: "#008E97" },
@@ -99,6 +102,17 @@ const StackNavigator = () => {
                 <Stack.Screen
                     name="Address"
                     component={AddressScreen}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Confirm"
+                    component={ConfirmationScreen}
+                    options={{ headerShown: false }}
+                />
+
+                <Stack.Screen
+                    name="Order"
+                    component={OrderScreen}
                     options={{ headerShown: false }}
                 />
             </Stack.Navigator>

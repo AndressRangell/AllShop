@@ -205,6 +205,7 @@ const HomeScreen = () => {
     const [addresses, setAddresses] = useState([]);
     const [category, setCategory] = useState("jewelery");
     const { userId, setUserId } = useContext(UserType);
+    const [selectedAddress, setSelectedAdress] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -305,17 +306,16 @@ const HomeScreen = () => {
                         }}
                     >
                         <Ionicons name="location-outline" size={24} color="black" />
-                        <Pressable
-                            onPress={() => setModalVisible(!modalVisible)}
-                        >
-                            <Text
-                                style={{
-                                    fontSize: 13,
-                                    fontWeight: "500",
-                                }}
-                            >
-                                Deliver to Leavenworth - Washington 98826
-                            </Text>
+                        <Pressable>
+                            {selectedAddress ? (
+                                <Text>
+                                    Deliver to {selectedAddress?.name} - {selectedAddress?.street}
+                                </Text>
+                            ) : (
+                                <Text style={{ fontSize: 13, fontWeight: "500" }}>
+                                    Add a Address
+                                </Text>
+                            )}
                         </Pressable>
                         <MaterialIcons name="keyboard-arrow-down" size={24} color="black" />
                     </Pressable>
@@ -575,6 +575,58 @@ const HomeScreen = () => {
                         horizontal
                         showsHorizontalScrollIndicator={false}
                     >
+                        {/* already added addresses */}
+                        {addresses?.map((item, index) => (
+                            <Pressable
+                                onPress={() => {
+                                    setSelectedAdress(item)
+                                    navigation.navigate("AddAddress");
+                                }}
+                                style={{
+                                    width: 140,
+                                    height: 140,
+                                    borderColor: "#D0D0D0",
+                                    borderWidth: 1,
+                                    padding: 10,
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    gap: 3,
+                                    marginRight: 15,
+                                    marginTop: 10,
+                                    backgroundColor: selectedAddress === item ? "#FBCEB1" : "white"
+                                }}
+                            >
+                                <View
+                                    style={{ flexDirection: "row", alignItems: "center", gap: 3 }}
+                                >
+                                    <Text style={{ fontSize: 13, fontWeight: "bold" }}>
+                                        {item?.name}
+                                    </Text>
+                                    <Entypo name="location-pin" size={24} color="red" />
+                                </View>
+
+                                <Text
+                                    numberOfLines={1}
+                                    style={{ width: 130, fontSize: 13, textAlign: "center" }}
+                                >
+                                    {item?.houseNo},{item?.landmark}
+                                </Text>
+
+                                <Text
+                                    numberOfLines={1}
+                                    style={{ width: 130, fontSize: 13, textAlign: "center" }}
+                                >
+                                    {item?.street}
+                                </Text>
+                                <Text
+                                    numberOfLines={1}
+                                    style={{ width: 130, fontSize: 13, textAlign: "center" }}
+                                >
+                                    India, Bangalore
+                                </Text>
+                            </Pressable>
+                        ))}
+
                         <Pressable
                             onPress={() => {
                                 setModalVisible(false);
