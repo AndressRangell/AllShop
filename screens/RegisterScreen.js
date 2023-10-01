@@ -1,20 +1,7 @@
-import {
-    StyleSheet,
-    Text,
-    View,
-    SafeAreaView,
-    Image,
-    KeyboardAvoidingView,
-    TextInput,
-    Pressable,
-    Alert
-} from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Image, KeyboardAvoidingView, TextInput, Pressable, Alert } from "react-native";
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-
-import { MaterialIcons } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons, AntDesign, Ionicons } from '@expo/vector-icons';
 import axios from "axios";
 
 const RegisterScreen = () => {

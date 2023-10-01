@@ -1,14 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import LoginScreen from '../screens/LoginScreen'
-import RegisterScreen from '../screens/RegisterScreen'
-import HomeScreen from '../screens/HomeScreen'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { Entypo } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons'
+import { Entypo, AntDesign, Ionicons } from '@expo/vector-icons';
+
+import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen';
+import HomeScreen from '../screens/HomeScreen';
+import ProductInfoScreen from '../screens/ProductInfoScreen';
+import AddAddressScreen from '../screens/AddAddressScreen'
+import AddressScreen from '../screens/AddressScreen'
 
 const StackNavigator = () => {
     const Stack = createNativeStackNavigator();
@@ -82,6 +84,21 @@ const StackNavigator = () => {
                 <Stack.Screen
                     name="Main"
                     component={BottomTabs}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Info"
+                    component={ProductInfoScreen}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="AddAddress"
+                    component={AddAddressScreen}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name="Address"
+                    component={AddressScreen}
                     options={{ headerShown: false }}
                 />
             </Stack.Navigator>
