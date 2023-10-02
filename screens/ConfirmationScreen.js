@@ -7,7 +7,6 @@ import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { cleanCart } from "../redux/CartReducer";
 import { useNavigation } from "@react-navigation/native";
-import RazorpayCheckout from "react-native-razorpay";
 
 const ConfirmationScreen = () => {
     const steps = [
@@ -70,23 +69,7 @@ const ConfirmationScreen = () => {
     };
     const pay = async () => {
         try {
-            const options = {
-                description: "Adding To Wallet",
-                currency: "INR",
-                name: "Amazon",
-                key: "rzp_test_E3GWYimxN7YMk8",
-                amount: total * 100,
-                prefill: {
-                    email: "void@razorpay.com",
-                    contact: "9191919191",
-                    name: "RazorPay Software",
-                },
-                theme: { color: "#F37254" },
-            };
-
-            const data = await RazorpayCheckout.open(options);
-
-            console.log(data)
+            // Pay setup the order
 
             const orderData = {
                 userId: userId,
@@ -416,8 +399,8 @@ const ConfirmationScreen = () => {
                                         },
                                         {
                                             text: "OK",
-                                            onPress: () => pay(),
-                                        },
+                                            onPress: () => { } //Pay setup the order
+                                        }
                                     ]);
                                 }}
                                 name="circle"

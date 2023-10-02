@@ -13,7 +13,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
     decrementQuantity,
-    incementQuantity,
+    incrementQuantity,
     removeFromCart,
 } from "../redux/CartReducer";
 import { useNavigation } from "@react-navigation/native";
@@ -26,7 +26,7 @@ const CartScreen = () => {
         .reduce((curr, prev) => curr + prev, 0);
     const dispatch = useDispatch();
     const increaseQuantity = (item) => {
-        dispatch(incementQuantity(item));
+        dispatch(incrementQuantity(item));
     };
     const decreaseQuantity = (item) => {
         dispatch(decrementQuantity(item));
