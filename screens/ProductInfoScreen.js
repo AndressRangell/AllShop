@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, ScrollView, Pressable, TextInput, Dimensions, ImageBackground } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Pressable, TextInput, Dimensions, ImageBackground, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { AntDesign, Feather, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -19,6 +19,23 @@ const ProductInfoScreen = () => {
             setAddedToCart(false);
         }, 60000);
     }
+
+    const [isFavorite, setIsFavorite] = useState(false);
+    const [favorites, setFavorites] = useState([]);
+
+    const addFavorite = async () => {
+        if (isFavorite) {
+            const updatedFavorites = favorites.filter(fav => fav !== 'item_id');
+            setFavorites(updatedFavorites);
+            setIsFavorite(false);
+        } else {
+            const updatedFavorites = [...favorites, 'item_id'];
+            setFavorites(updatedFavorites);
+            setIsFavorite(true);
+        }
+        await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    };
+
     const cart = useSelector((state) => state.cart.cart);
 
     return (
@@ -57,7 +74,7 @@ const ProductInfoScreen = () => {
                         size={22}
                         color="black"
                     />
-                    <TextInput placeholder="Search Amazon.in" />
+                    <TextInput placeholder="Search AllShop" />
                 </Pressable>
                 <Feather name="mic" size={24} color="black" />
             </View>
@@ -133,7 +150,13 @@ const ProductInfoScreen = () => {
                                 marginBottom: 20
                             }}
                         >
-                            <AntDesign name="hearto" size={24} color="black" />
+                            <TouchableOpacity onPress={addFavorite}>
+                                <AntDesign
+                                    name="hearto"
+                                    size={24}
+                                    color="black"
+                                />
+                            </TouchableOpacity>
                         </View>
                     </ImageBackground>
                 ))}

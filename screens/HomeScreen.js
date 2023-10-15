@@ -290,7 +290,7 @@ const HomeScreen = () => {
                                 size={22}
                                 color="black"
                             />
-                            <TextInput placeholder="Search Amazon.in" />
+                            <TextInput placeholder="Search AllShop" />
                         </Pressable>
                         <Feather name="mic" size={24} color="black" />
                     </View>
@@ -399,7 +399,7 @@ const HomeScreen = () => {
                             >
                                 <Image
                                     style={{
-                                        width: 200,
+                                        width: 190,
                                         height: 200,
                                         resizeMode: "contain"
                                     }}

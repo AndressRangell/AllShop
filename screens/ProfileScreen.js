@@ -1,197 +1,131 @@
 import {
-    Image,
     StyleSheet,
     Text,
     View,
     ScrollView,
     Pressable,
+    TextInput,
+    Image,
 } from "react-native";
-import React, { useLayoutEffect, useEffect, useContext, useState } from "react";
+import React from "react";
+import { Feather } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    decrementQuantity,
+    incrementQuantity,
+    removeFromCart,
+} from "../redux/CartReducer";
 import { useNavigation } from "@react-navigation/native";
-import { Ionicons, AntDesign } from "@expo/vector-icons";
-import axios from "axios";
-import { UserType } from "../UserContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ProfileScreen = () => {
-    const { userId, setUserId } = useContext(UserType);
-    const [orders, setOrders] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const cart = useSelector((state) => state.cart.cart);
+    console.log(cart);
+    const total = cart
+        ?.map((item) => item.price * item.quantity)
+        .reduce((curr, prev) => curr + prev, 0);
+    const dispatch = useDispatch();
+    const increaseQuantity = (item) => {
+        dispatch(incrementQuantity(item));
+    };
+    const decreaseQuantity = (item) => {
+        dispatch(decrementQuantity(item));
+    };
+    const deleteItem = (item) => {
+        dispatch(removeFromCart(item));
+    };
     const navigation = useNavigation();
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerTitle: "",
-            headerStyle: {
-                backgroundColor: "#00CED1",
-            },
-            headerLeft: () => (
-                <Image
-                    style={{ width: 140, height: 120, resizeMode: "contain" }}
-                    source={{
-                        uri: "https://assets.stickpng.com/thumbs/580b57fcd9996e24bc43c518.png",
-                    }}
-                />
-            ),
-            headerRight: () => (
-                <View
-                    style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        gap: 6,
-                        marginRight: 12,
-                    }}
-                >
-                    <Ionicons name="notifications-outline" size={24} color="black" />
-
-                    <AntDesign name="search1" size={24} color="black" />
-                </View>
-            ),
-        });
-    }, []);
-    const [user, setUser] = useState();
-    useEffect(() => {
-        const fetchUserProfile = async () => {
-            try {
-                const response = await axios.get(
-                    `http://localhost:8000/profile/${userId}`
-                );
-                const { user } = response.data;
-                setUser(user);
-            } catch (error) {
-                console.log("error", error);
-            }
-        };
-
-        fetchUserProfile();
-    }, []);
-    const logout = () => {
-        clearAuthToken();
-    };
-    const clearAuthToken = async () => {
-        await AsyncStorage.removeItem("authToken");
-        console.log("auth token cleared");
-        navigation.replace("Login");
-    };
-    useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const response = await axios.get(
-                    `http://localhost:8000/orders/${userId}`
-                );
-                const orders = response.data.orders;
-                setOrders(orders);
-
-                setLoading(false);
-            } catch (error) {
-                console.log("error", error);
-            }
-        };
-
-        fetchOrders();
-    }, []);
-    console.log("orders", orders);
     return (
-        <ScrollView style={{ padding: 10, flex: 1, backgroundColor: "white" }}>
-            <Text style={{ fontSize: 16, fontWeight: "bold" }}>
-                Welcome {user?.name}
-            </Text>
+        <ScrollView style={{ marginTop: 55, flex: 1, backgroundColor: "white" }}>
 
-            <View
+            <Text
                 style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 10,
-                    marginTop: 12,
+                    height: 1,
+                    borderColor: "#D0D0D0",
+                    borderWidth: 1,
+                    marginTop: 16,
                 }}
-            >
-                <Pressable
-                    style={{
-                        padding: 10,
-                        backgroundColor: "#E0E0E0",
-                        borderRadius: 25,
-                        flex: 1,
-                    }}
-                >
-                    <Text style={{ textAlign: "center" }}>Your orders</Text>
-                </Pressable>
+            />
 
-                <Pressable
-                    style={{
-                        padding: 10,
-                        backgroundColor: "#E0E0E0",
-                        borderRadius: 25,
-                        flex: 1,
-                    }}
-                >
-                    <Text style={{ textAlign: "center" }}>Your Account</Text>
-                </Pressable>
-            </View>
-
-            <View
-                style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 10,
-                    marginTop: 12,
-                }}
-            >
-                <Pressable
-                    style={{
-                        padding: 10,
-                        backgroundColor: "#E0E0E0",
-                        borderRadius: 25,
-                        flex: 1,
-                    }}
-                >
-                    <Text style={{ textAlign: "center" }}>Buy Again</Text>
-                </Pressable>
-
-                <Pressable
-                    onPress={logout}
-                    style={{
-                        padding: 10,
-                        backgroundColor: "#E0E0E0",
-                        borderRadius: 25,
-                        flex: 1,
-                    }}
-                >
-                    <Text style={{ textAlign: "center" }}>Logout</Text>
-                </Pressable>
-            </View>
-
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                {loading ? (
-                    <Text>Loading...</Text>
-                ) : orders.length > 0 ? (
-                    orders.map((order) => (
+            <View style={{ marginHorizontal: 10 }}>
+                {cart?.map((item, index) => (
+                    <View
+                        style={{
+                            backgroundColor: "white",
+                            marginVertical: 10,
+                            borderBottomColor: "#F0F0F0",
+                            borderWidth: 2,
+                            borderLeftWidth: 0,
+                            borderTopWidth: 0,
+                            borderRightWidth: 0,
+                        }}
+                        key={index}
+                    >
                         <Pressable
                             style={{
-                                marginTop: 20,
-                                padding: 15,
-                                borderRadius: 8,
-                                borderWidth: 1,
-                                borderColor: "#d0d0d0",
-                                marginHorizontal: 10,
-                                justifyContent: "center",
-                                alignItems: "center",
+                                marginVertical: 10,
+                                flexDirection: "row",
+                                justifyContent: "space-between",
                             }}
-                            key={order._id}
                         >
-                            {/* Render the order information here */}
-                            {order.products.slice(0, 1)?.map((product) => (
-                                <View style={{ marginVertical: 10 }} key={product._id}>
-                                    <Image
-                                        source={{ uri: product.image }}
-                                        style={{ width: 100, height: 100, resizeMode: "contain" }}
-                                    />
-                                </View>
-                            ))}
+                            <View>
+                                <Image
+                                    style={{ width: 140, height: 140, resizeMode: "contain" }}
+                                    source={{ uri: item?.image }}
+                                />
+                            </View>
+
+                            <View>
+                                <Text numberOfLines={3} style={{ width: 150, marginTop: 10 }}>
+                                    {item?.title}
+                                </Text>
+                                <Text
+                                    style={{ fontSize: 20, fontWeight: "bold", marginTop: 6 }}
+                                >
+                                    {item?.price}
+                                </Text>
+                                <Image
+                                    style={{ width: 30, height: 30, resizeMode: "contain" }}
+                                    source={{
+                                        uri: "https://assets.stickpng.com/thumbs/5f4924cc68ecc70004ae7065.png",
+                                    }}
+                                />
+                                <Text style={{ color: "green" }}>In Stock</Text>
+                                {/* <Text style={{ fontWeight: "500", marginTop: 6 }}>
+                    {item?.rating?.rate} ratings
+                  </Text> */}
+                            </View>
                         </Pressable>
-                    ))
-                ) : (
-                    <Text>No orders found</Text>
-                )}
-            </ScrollView>
+
+                        <Pressable
+                            style={{
+                                marginTop: 15,
+                                marginBottom: 10,
+                                flexDirection: "row",
+                                alignItems: "center",
+                                gap: 10,
+                            }}
+                        >
+                            
+                            <Pressable
+                                onPress={() => deleteItem(item)}
+                                style={{
+                                    backgroundColor: "white",
+                                    paddingHorizontal: 8,
+                                    paddingVertical: 10,
+                                    borderRadius: 5,
+                                    borderColor: "#C0C0C0",
+                                    borderWidth: 0.6,
+                                }}
+                            >
+                                <Text>Delete</Text>
+                            </Pressable>
+                        </Pressable>
+
+                        
+                    </View>
+                ))}
+            </View>
         </ScrollView>
     );
 };

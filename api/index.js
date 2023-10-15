@@ -36,7 +36,7 @@ const sendVerificationEmail = async (email, verificationToken) => {
         service: "gmail",
         auth: {
             user: "allshoputs@gmail.com",
-            pass: "rhzh sfbv qvno eqsj"
+            pass: "mkhx nekm hoef wotv"
         }
     })
 
@@ -116,6 +116,10 @@ app.post("/login", async (req, res) => {
 
         if (user.password !== password) {
             return res.status(401).json({ message: "Invalid password" });
+        }
+
+        if (!user.verified) {
+            return res.status(403).json({ message: "User not verified" });
         }
 
         const token = jwt.sign({ userId: user._id }, secretKey);

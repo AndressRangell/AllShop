@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, KeyboardAvoidingView, TextInput, Pressable } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Image, KeyboardAvoidingView, TextInput, Pressable, Alert } from "react-native";
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { MaterialIcons, AntDesign } from '@expo/vector-icons';
@@ -38,9 +38,8 @@ const LoginScreen = () => {
         }).catch((error) => {
             Alert.alert(
                 "Login error",
-                "Invalid email"
+                "Email error or user not verified",
             )
-            console.log(error);
         })
     }
 
@@ -49,7 +48,8 @@ const LoginScreen = () => {
             style={{
                 flex: 1,
                 backgroundColor: "white",
-                alignItems: "center"
+                alignItems: "center",
+                marginTop: 20
             }}
         >
             <View>
@@ -58,9 +58,7 @@ const LoginScreen = () => {
                         width: 150,
                         height: 100
                     }}
-                    source={{
-                        uri: "https://assets.stickpng.com/thumbs/6160562276000b00045a7d97.png"
-                    }}
+                    source={require("../assets/logo.png")}
                 />
             </View>
             <KeyboardAvoidingView>
